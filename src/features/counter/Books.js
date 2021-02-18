@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addBook, getAllBooksFromAPI } from "./bookSlice";
-import styles from './Books.module.css';
 import { useEffect } from 'react';
+import { FETCH_BOOKS } from '../../actions/actions';
 
 export function Books() {
   const dispatch = useDispatch();
-  const state = useSelector(state => state.book)
+  const state = useSelector(state => {
+    return state.books;
+  });
 
   useEffect(() => {
-    dispatch(getAllBooksFromAPI());
+    dispatch({
+      type: FETCH_BOOKS
+    });
   }, [dispatch]);
 
 
@@ -22,7 +25,7 @@ export function Books() {
           ) :
           (
             state.books.map(book => (
-              <p>{book.title}</p>
+              <p key={book.id}>{book.title}</p>
             ))
           )
       }
